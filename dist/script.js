@@ -974,6 +974,8 @@ function () {
   _createClass(Sliders, [{
     key: "showSlides",
     value: function showSlides(n) {
+      var _this = this;
+
       if (n > this.slides.length) {
         this.slideIndex = 1;
       }
@@ -982,10 +984,28 @@ function () {
         this.slideIndex = this.slides.length;
       }
 
+      try {
+        this.hanson.style.display = "none";
+        this.hanson.classList.remove("slideInUp");
+
+        if (n === 3) {
+          setTimeout(function () {
+            _this.hanson.style.display = "block";
+
+            _this.hanson.classList.add("slideInUp");
+          }, 3000);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
       this.slides.forEach(function (elem) {
+        elem.classList.add("animated");
+        elem.classList.remove("fadeIn");
         elem.style.display = "none";
       });
       this.slides[this.slideIndex - 1].style.display = "block";
+      this.slides[this.slideIndex - 1].classList.add("fadeIn");
     }
   }, {
     key: "plusSlides",
@@ -995,17 +1015,25 @@ function () {
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
+
+      try {
+        this.hanson = document.querySelector(".hanson");
+        this.hanson.style.display = "none";
+        this.hanson.classList.add("animated");
+      } catch (e) {
+        console.log(e);
+      }
 
       this.btns.forEach(function (elem) {
         elem.addEventListener("click", function () {
-          _this.plusSlides(1);
+          _this2.plusSlides(1);
         });
         elem.parentNode.previousElementSibling.addEventListener("click", function (e) {
           e.preventDefault();
-          _this.slideIndex = 1;
+          _this2.slideIndex = 1;
 
-          _this.showSlides(_this.slideIndex);
+          _this2.showSlides(_this2.slideIndex);
         });
       });
       this.showSlides(this.slideIndex);
