@@ -42,7 +42,7 @@ gulp.task("build-js", () => {
                       }
                 }))
                 .pipe(gulp.dest(dist))
-                .on("end", browsersync.reload);
+                // .on("end", browsersync.reload);
 });
 
 gulp.task("copy-assets", () => {
@@ -59,10 +59,10 @@ gulp.task("watch", () => {
                 extensions: ["html"]
             }
         },
-		port: 4000,
+		port: 3000,
 		notify: true
     });
-    
+
     gulp.watch("./src/*.html", gulp.parallel("copy-html"));
     gulp.watch("./src/assets/**/*.*", gulp.parallel("copy-assets"));
     gulp.watch("./src/js/**/*.js", gulp.parallel("build-js"));

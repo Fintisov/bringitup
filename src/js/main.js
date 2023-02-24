@@ -1,6 +1,7 @@
 import MainSlider from "./modules/sliders/slider-main";
 import MiniSlider from "./modules/sliders/slider-mini";
 import Player from "./modules/player";
+import Different from "./modules/different";
 
 window.addEventListener("DOMContentLoaded", () => {
     const mainSlider = new MainSlider({
@@ -36,4 +37,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const player = new Player(".play", ".overlay", ".close", "OJ7Cx9KsEO0");
     player.init();
+
+    new Different(".officerold", ".officer__card-item", ".plus").init();
+
+    new Different(".officernew", ".officer__card-item", ".plus").init();
 })

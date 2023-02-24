@@ -2763,6 +2763,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_sliders_slider_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/sliders/slider-main */ "./src/js/modules/sliders/slider-main.js");
 /* harmony import */ var _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/sliders/slider-mini */ "./src/js/modules/sliders/slider-mini.js");
 /* harmony import */ var _modules_player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/player */ "./src/js/modules/player.js");
+/* harmony import */ var _modules_different__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/different */ "./src/js/modules/different.js");
+
 
 
 
@@ -2796,7 +2798,101 @@ window.addEventListener("DOMContentLoaded", function () {
   feedSlider.init();
   var player = new _modules_player__WEBPACK_IMPORTED_MODULE_2__["default"](".play", ".overlay", ".close", "OJ7Cx9KsEO0");
   player.init();
+  new _modules_different__WEBPACK_IMPORTED_MODULE_3__["default"](".officerold", ".officer__card-item", ".plus").init();
+  new _modules_different__WEBPACK_IMPORTED_MODULE_3__["default"](".officernew", ".officer__card-item", ".plus").init();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/different.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/different.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Different; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Different =
+/*#__PURE__*/
+function () {
+  function Different(containerContent, itemsClass, showBtn) {
+    _classCallCheck(this, Different);
+
+    this.container = document.querySelector(containerContent);
+    this.items = this.container.querySelectorAll(itemsClass);
+    this.itemsClass = itemsClass;
+    this.showBtn = this.container.querySelector(showBtn);
+    this.counterItems = 0;
+  }
+
+  _createClass(Different, [{
+    key: "showCard",
+    value: function showCard() {
+      var _this = this;
+
+      this.items[this.counterItems].style.display = "flex";
+      this.items[this.counterItems].classList.add("fadeIn");
+      this.counterItems++;
+
+      if (this.counterItems === this.items.length - 1) {
+        this.showBtn.closest(this.itemsClass).classList.add("fadeOut");
+        setTimeout(function () {
+          _this.showBtn.closest(_this.itemsClass).remove();
+        }, 1000);
+      }
+    }
+  }, {
+    key: "hideCard",
+    value: function hideCard() {
+      this.items.forEach(function (elem, i, arr) {
+        elem.classList.add("animated");
+
+        if (i !== arr.length - 1) {
+          elem.style.display = "none";
+        }
+      });
+    }
+  }, {
+    key: "bindTriggers",
+    value: function bindTriggers() {
+      var _this2 = this;
+
+      var eventShowCard = function eventShowCard() {
+        if (_this2.counterItems !== _this2.items.length - 2) {
+          _this2.showCard();
+        } else {
+          _this2.showCard();
+
+          _this2.showBtn.removeEventListener("click", eventShowCard);
+        }
+      };
+
+      this.showBtn.addEventListener("click", eventShowCard);
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      this.hideCard();
+      this.bindTriggers();
+    }
+  }]);
+
+  return Different;
+}();
+
+
 
 /***/ }),
 
