@@ -52,27 +52,33 @@ export default class MiniSlider extends Slider {
     }
 
     init() {
-        this.container.style.cssText = `
+        try {
+
+
+            this.container.style.cssText = `
             display: flex; 
             flex-wrap: wrap;
             overflow: hidden;
             align-items: flex-start;
         `;
 
-        this.prev.forEach(elem => {
-            elem.addEventListener("click", () => {
-                this.showPrevSlide();
-            })
-        });
+            this.prev.forEach(elem => {
+                elem.addEventListener("click", () => {
+                    this.showPrevSlide();
+                })
+            });
 
-        this.next.forEach(elem => {
-            elem.addEventListener("click", () => {
-                this.showNextSlide();
-            })
-        });
+            this.next.forEach(elem => {
+                elem.addEventListener("click", () => {
+                    this.showNextSlide();
+                })
+            });
 
-        if (this.autoplay === true) {
-            this.autoplayInit();
+            if (this.autoplay === true) {
+                this.autoplayInit();
+            }
+        } catch (e) {
+
         }
     };
 }

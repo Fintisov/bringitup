@@ -2830,11 +2830,13 @@ function () {
   function Different(containerContent, itemsClass, showBtn) {
     _classCallCheck(this, Different);
 
-    this.container = document.querySelector(containerContent);
-    this.items = this.container.querySelectorAll(itemsClass);
-    this.itemsClass = itemsClass;
-    this.showBtn = this.container.querySelector(showBtn);
-    this.counterItems = 0;
+    try {
+      this.container = document.querySelector(containerContent);
+      this.items = this.container.querySelectorAll(itemsClass);
+      this.itemsClass = itemsClass;
+      this.showBtn = this.container.querySelector(showBtn);
+      this.counterItems = 0;
+    } catch (e) {}
   }
 
   _createClass(Different, [{
@@ -2884,8 +2886,10 @@ function () {
   }, {
     key: "init",
     value: function init() {
-      this.hideCard();
-      this.bindTriggers();
+      try {
+        this.hideCard();
+        this.bindTriggers();
+      } catch (e) {}
     }
   }]);
 
@@ -3081,9 +3085,7 @@ function (_Slider) {
             _this2.hanson.classList.add("slideInUp");
           }, 3000);
         }
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
 
       this.slides.forEach(function (elem) {
         elem.classList.add("animated");
@@ -3104,24 +3106,24 @@ function (_Slider) {
       var _this3 = this;
 
       try {
-        this.hanson.style.display = "none";
-        this.hanson.classList.add("animated");
-      } catch (e) {
-        console.log(e);
-      }
+        try {
+          this.hanson.style.display = "none";
+          this.hanson.classList.add("animated");
+        } catch (e) {}
 
-      this.next.forEach(function (elem) {
-        elem.addEventListener("click", function () {
-          _this3.plusSlides(1);
-        });
-        elem.parentNode.previousElementSibling.addEventListener("click", function (e) {
-          e.preventDefault();
-          _this3.slideIndex = 1;
+        this.next.forEach(function (elem) {
+          elem.addEventListener("click", function () {
+            _this3.plusSlides(1);
+          });
+          elem.parentNode.previousElementSibling.addEventListener("click", function (e) {
+            e.preventDefault();
+            _this3.slideIndex = 1;
 
-          _this3.showSlides(_this3.slideIndex);
+            _this3.showSlides(_this3.slideIndex);
+          });
         });
-      });
-      this.showSlides(this.slideIndex);
+        this.showSlides(this.slideIndex);
+      } catch (e) {}
     }
   }]);
 
@@ -3274,21 +3276,23 @@ function (_Slider) {
     value: function init() {
       var _this5 = this;
 
-      this.container.style.cssText = "\n            display: flex; \n            flex-wrap: wrap;\n            overflow: hidden;\n            align-items: flex-start;\n        ";
-      this.prev.forEach(function (elem) {
-        elem.addEventListener("click", function () {
-          _this5.showPrevSlide();
+      try {
+        this.container.style.cssText = "\n            display: flex; \n            flex-wrap: wrap;\n            overflow: hidden;\n            align-items: flex-start;\n        ";
+        this.prev.forEach(function (elem) {
+          elem.addEventListener("click", function () {
+            _this5.showPrevSlide();
+          });
         });
-      });
-      this.next.forEach(function (elem) {
-        elem.addEventListener("click", function () {
-          _this5.showNextSlide();
+        this.next.forEach(function (elem) {
+          elem.addEventListener("click", function () {
+            _this5.showNextSlide();
+          });
         });
-      });
 
-      if (this.autoplay === true) {
-        this.autoplayInit();
-      }
+        if (this.autoplay === true) {
+          this.autoplayInit();
+        }
+      } catch (e) {}
     }
   }]);
 
@@ -3328,7 +3332,11 @@ var Slider = function Slider(_ref) {
   _classCallCheck(this, Slider);
 
   this.container = document.querySelector(container);
-  this.slides = this.container ? this.container.children : null;
+
+  try {
+    this.slides = this.container.children;
+  } catch (e) {}
+
   this.prev = document.querySelectorAll(prev);
   this.next = document.querySelectorAll(next);
   this.activeClass = activeClass;

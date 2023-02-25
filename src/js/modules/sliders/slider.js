@@ -8,7 +8,7 @@ export default class Slider {
                     autoplayTime = 5000,
                 }) {
         this.container = document.querySelector(container);
-        this.slides = (this.container) ? this.container.children : null;
+        try {this.slides = this.container.children;} catch (e) {}
         this.prev = document.querySelectorAll(prev);
         this.next = document.querySelectorAll(next);
         this.activeClass = activeClass;

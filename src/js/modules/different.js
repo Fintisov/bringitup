@@ -1,10 +1,13 @@
 export default class Different {
     constructor(containerContent, itemsClass, showBtn) {
-        this.container = document.querySelector(containerContent);
-        this.items = this.container.querySelectorAll(itemsClass);
-        this.itemsClass = itemsClass;
-        this.showBtn = this.container.querySelector(showBtn);
-        this.counterItems = 0;
+        try {
+            this.container = document.querySelector(containerContent);
+            this.items = this.container.querySelectorAll(itemsClass);
+            this.itemsClass = itemsClass;
+            this.showBtn = this.container.querySelector(showBtn);
+            this.counterItems = 0;
+        } catch (e) {
+        }
     }
 
     showCard() {
@@ -43,7 +46,10 @@ export default class Different {
     }
 
     init() {
-        this.hideCard();
-        this.bindTriggers();
+        try {
+            this.hideCard();
+            this.bindTriggers();
+        } catch (e) {
+        }
     }
 }
