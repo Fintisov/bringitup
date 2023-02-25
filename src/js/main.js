@@ -2,6 +2,7 @@ import MainSlider from "./modules/sliders/slider-main";
 import MiniSlider from "./modules/sliders/slider-mini";
 import Player from "./modules/player";
 import Different from "./modules/different";
+import Forms from "./modules/forms";
 
 window.addEventListener("DOMContentLoaded", () => {
     const mainSlider = new MainSlider({
@@ -39,6 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
     player.init();
 
     new Different(".officerold", ".officer__card-item", ".plus").init();
-
     new Different(".officernew", ".officer__card-item", ".plus").init();
+
+    new Forms("form", "./assets/question.php").init();
 })
