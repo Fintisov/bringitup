@@ -5,11 +5,19 @@ import Different from "./modules/different";
 import Forms from "./modules/forms";
 
 window.addEventListener("DOMContentLoaded", () => {
-    const mainSlider = new MainSlider({
+    const mainPageSlider = new MainSlider({
         container: ".page",
-        next: ".next"
+        mainNextBtn: ".next"
     });
-    mainSlider.render();
+    mainPageSlider.render();
+
+    const modulePageSlider = new MainSlider({
+        container: ".moduleapp",
+        mainNextBtn: ".next",
+        next: ".nextmodule",
+        prev: ".prevmodule",
+    });
+    modulePageSlider.render();
 
     const showUpSlide = new MiniSlider({
         container: ".showup__content-slider",

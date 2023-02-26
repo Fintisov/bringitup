@@ -3,12 +3,17 @@ export default class Slider {
                     container = null,
                     prev = null,
                     next = null,
+                    mainNextBtn = null,
                     activeClass = null,
                     autoplay = false,
                     autoplayTime = 5000,
                 }) {
         this.container = document.querySelector(container);
-        try {this.slides = this.container.children;} catch (e) {}
+        try {
+            this.slides = this.container.children;
+        } catch (e) {
+        }
+        this.mainNextBtn = document.querySelectorAll(mainNextBtn);
         this.prev = document.querySelectorAll(prev);
         this.next = document.querySelectorAll(next);
         this.activeClass = activeClass;
