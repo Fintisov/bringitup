@@ -3179,6 +3179,38 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.array.filter.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.array.filter.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var $filter = __webpack_require__(/*! ../internals/array-iteration */ "./node_modules/core-js/internals/array-iteration.js").filter;
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var arrayMethodHasSpeciesSupport = __webpack_require__(/*! ../internals/array-method-has-species-support */ "./node_modules/core-js/internals/array-method-has-species-support.js");
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('filter');
+// Edge 14- issue
+var USES_TO_LENGTH = HAS_SPECIES_SUPPORT && !fails(function () {
+  [].filter.call({ length: -1, 0: 1 }, function (it) { throw it; });
+});
+
+// `Array.prototype.filter` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.filter
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
+  filter: function filter(callbackfn /* , thisArg */) {
+    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.array.iterator.js":
 /*!***********************************************************!*\
   !*** ./node_modules/core-js/modules/es.array.iterator.js ***!
@@ -5195,14 +5227,14 @@ window.addEventListener("DOMContentLoaded", function () {
     container: ".page",
     mainNextBtn: ".next"
   });
-  mainPageSlider.render();
+  mainPageSlider.init();
   var modulePageSlider = new _modules_sliders_slider_main__WEBPACK_IMPORTED_MODULE_0__["default"]({
     container: ".moduleapp",
     mainNextBtn: ".next",
     next: ".nextmodule",
     prev: ".prevmodule"
   });
-  modulePageSlider.render();
+  modulePageSlider.init();
   var showUpSlide = new _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_1__["default"]({
     container: ".showup__content-slider",
     prev: ".showup__prev",
@@ -5225,8 +5257,8 @@ window.addEventListener("DOMContentLoaded", function () {
     activeClass: "feed__item-active"
   });
   feedSlider.init();
-  var player = new _modules_player__WEBPACK_IMPORTED_MODULE_2__["default"](".play", ".overlay", ".close", "OJ7Cx9KsEO0");
-  player.init();
+  new _modules_player__WEBPACK_IMPORTED_MODULE_2__["default"](".play", ".overlay", ".close").init();
+  new _modules_player__WEBPACK_IMPORTED_MODULE_2__["default"](".module__video-item .play", ".overlay", ".close").init();
   new _modules_different__WEBPACK_IMPORTED_MODULE_3__["default"](".officerold", ".officer__card-item", ".plus").init();
   new _modules_different__WEBPACK_IMPORTED_MODULE_3__["default"](".officernew", ".officer__card-item", ".plus").init();
   new _modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"]("form", "./assets/question.php").init();
@@ -5552,8 +5584,11 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Player; });
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.filter */ "./node_modules/core-js/modules/es.array.filter.js");
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5571,6 +5606,7 @@ function () {
     this.triggerBtn = document.querySelectorAll(trigger);
     this.modal = document.querySelector(modal);
     this.closeModalBtn = this.modal.querySelector(close);
+    this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
   }
 
   _createClass(Player, [{
@@ -5579,16 +5615,79 @@ function () {
       var _this = this;
 
       this.triggerBtn.forEach(function (elem) {
-        elem.addEventListener("click", function () {
-          if (!_this.modal.querySelector("iframe#frame")) {
-            var pathVideo = elem.getAttribute("data-url");
+        elem.addEventListener("click", function (e) {
+          e.preventDefault();
 
-            _this.createPlayer(pathVideo);
+          if (!elem.closest(".module__video-item") || elem.closest(".module__video-item").getAttribute("data-locked") === "false") {
+            _this.openVideoBtn = elem;
+
+            if (_this.modal.querySelector("iframe#frame")) {
+              _this.modal.style.display = "flex";
+
+              if (elem.getAttribute("data-url") !== _this.pathVideo) {
+                _this.pathVideo = elem.getAttribute("data-url");
+
+                try {
+                  _this.player.loadVideoById({
+                    videoId: _this.pathVideo
+                  });
+
+                  _this.player.stopVideo();
+                } catch (e) {
+                  console.log(e);
+                }
+              }
+            } else {
+              _this.pathVideo = elem.getAttribute("data-url");
+
+              _this.createPlayer(_this.pathVideo);
+
+              _this.modal.style.display = "flex";
+            }
           }
-
-          _this.modal.style.display = "flex";
         });
       });
+    }
+  }, {
+    key: "unlockedVideo",
+    value: function unlockedVideo(elem) {
+      try {
+        var lockedVideoElements = elem.closest(".module__video").querySelectorAll("[data-locked='true']");
+
+        if (lockedVideoElements.length > 0) {
+          var iconPlay = elem.querySelector(".play__circle").cloneNode(true);
+          var item = lockedVideoElements[0];
+          item.setAttribute("data-locked", "false");
+          item.querySelector(".play__circle.closed").after(iconPlay);
+          item.querySelector(".play__circle.closed").remove();
+          item.querySelector(".play__text.attention").textContent = "play video";
+          item.querySelector(".play__text.attention").classList.remove("attention");
+          item.style.filter = "none";
+          item.style.opacity = "1";
+        }
+      } catch (e) {
+        throw new Error("Error in function unlockedVideo!\n             Text Error: ".concat(e));
+      }
+    }
+  }, {
+    key: "lockedVideo",
+    value: function lockedVideo() {
+      try {
+        var lockedContent = document.querySelectorAll(".play__circle.closed");
+        this.triggerBtn.forEach(function (elem) {
+          elem.closest(".module__video-item").setAttribute("data-locked", "false");
+        });
+        lockedContent.forEach(function (elem) {
+          elem.closest(".module__video-item").setAttribute("data-locked", "true");
+        });
+      } catch (e) {}
+    }
+  }, {
+    key: "onPlayerStateChange",
+    value: function onPlayerStateChange(event) {
+      if (event.data === 0) {
+        this.unlockedVideo(this.openVideoBtn);
+      }
     }
   }, {
     key: "closeModal",
@@ -5598,7 +5697,9 @@ function () {
       this.closeModalBtn.addEventListener("click", function () {
         _this2.modal.style.display = "none";
 
-        _this2.player.stopVideo();
+        try {
+          _this2.player.stopVideo();
+        } catch (e) {}
       });
     }
   }, {
@@ -5607,7 +5708,10 @@ function () {
       this.player = new YT.Player('frame', {
         height: '100%',
         width: '100%',
-        videoId: "".concat(url)
+        videoId: "".concat(url),
+        events: {
+          "onStateChange": this.onPlayerStateChange
+        }
       });
     }
   }, {
@@ -5615,6 +5719,7 @@ function () {
     value: function init() {
       this.openModal();
       this.closeModal();
+      this.lockedVideo();
       var tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -5770,8 +5875,8 @@ function (_Slider) {
       });
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "init",
+    value: function init() {
       if (this.container) {
         try {
           this.hanson.style.display = "none";

@@ -70,7 +70,7 @@ export default class MainSlider extends Slider {
         })
     }
 
-    render() {
+    init() {
         if (this.container) {
             try {
                 this.hanson.style.display = "none";

@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", () => {
         container: ".page",
         mainNextBtn: ".next"
     });
-    mainPageSlider.render();
+    mainPageSlider.init();
 
     const modulePageSlider = new MainSlider({
         container: ".moduleapp",
@@ -17,7 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
         next: ".nextmodule",
         prev: ".prevmodule",
     });
-    modulePageSlider.render();
+    modulePageSlider.init();
 
     const showUpSlide = new MiniSlider({
         container: ".showup__content-slider",
@@ -44,8 +44,8 @@ window.addEventListener("DOMContentLoaded", () => {
     })
     feedSlider.init();
 
-    const player = new Player(".play", ".overlay", ".close", "OJ7Cx9KsEO0");
-    player.init();
+    new Player(".play", ".overlay", ".close").init();
+    new Player(".module__video-item .play", ".overlay", ".close").init();
 
     new Different(".officerold", ".officer__card-item", ".plus").init();
     new Different(".officernew", ".officer__card-item", ".plus").init();
