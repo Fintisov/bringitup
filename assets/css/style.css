@@ -2077,3 +2077,10 @@ a:active {
     background-color: #b1ae1ced;
     border-radius: 5px;
 }
+
+[data-locked="true"] {
+    cursor: default;
+}
+[data-locked="true"] .play{
+    cursor: default;
+}
