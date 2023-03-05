@@ -12,7 +12,7 @@ export default class Download {
 
         document.body.appendChild(file);
         file.click();
-
+        file.remove();
     }
 
     bindTrigger() {
