@@ -3,6 +3,7 @@ import MiniSlider from "./modules/sliders/slider-mini";
 import Player from "./modules/player";
 import Different from "./modules/different";
 import Forms from "./modules/forms";
+import ShowMessage from "./modules/showMessage";
 
 window.addEventListener("DOMContentLoaded", () => {
     const mainPageSlider = new MainSlider({
@@ -51,4 +52,6 @@ window.addEventListener("DOMContentLoaded", () => {
     new Different(".officernew", ".officer__card-item", ".plus").init();
 
     new Forms("form", "./assets/question.php").init();
+
+    new ShowMessage(".module__info-show .plus", ".module__info .msg").init();
 })
