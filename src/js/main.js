@@ -4,6 +4,7 @@ import Player from "./modules/player";
 import Different from "./modules/different";
 import Forms from "./modules/forms";
 import ShowMessage from "./modules/showMessage";
+import Download from "./modules/download";
 
 window.addEventListener("DOMContentLoaded", () => {
     const mainPageSlider = new MainSlider({
@@ -53,5 +54,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     new Forms("form", "./assets/question.php").init();
 
-    new ShowMessage(".module__info-show .plus", ".module__info .msg").init();
+    new ShowMessage(".module__info-show .plus").init();
+
+    new Download(".download").init();
 })

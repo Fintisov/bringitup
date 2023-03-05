@@ -5218,6 +5218,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_different__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/different */ "./src/js/modules/different.js");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
 /* harmony import */ var _modules_showMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/showMessage */ "./src/js/modules/showMessage.js");
+/* harmony import */ var _modules_download__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/download */ "./src/js/modules/download.js");
+
 
 
 
@@ -5264,7 +5266,8 @@ window.addEventListener("DOMContentLoaded", function () {
   new _modules_different__WEBPACK_IMPORTED_MODULE_3__["default"](".officerold", ".officer__card-item", ".plus").init();
   new _modules_different__WEBPACK_IMPORTED_MODULE_3__["default"](".officernew", ".officer__card-item", ".plus").init();
   new _modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"]("form", "./assets/question.php").init();
-  new _modules_showMessage__WEBPACK_IMPORTED_MODULE_5__["default"](".module__info-show .plus", ".module__info .msg").init();
+  new _modules_showMessage__WEBPACK_IMPORTED_MODULE_5__["default"](".module__info-show .plus").init();
+  new _modules_download__WEBPACK_IMPORTED_MODULE_6__["default"](".download").init();
 });
 
 /***/ }),
@@ -5359,6 +5362,73 @@ function () {
   }]);
 
   return Different;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/modules/download.js":
+/*!************************************!*\
+  !*** ./src/js/modules/download.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Download; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Download =
+/*#__PURE__*/
+function () {
+  function Download(trigger) {
+    _classCallCheck(this, Download);
+
+    this.trigger = document.querySelectorAll(trigger);
+    this.path = "./assets/img/Bitmap.jpg";
+  }
+
+  _createClass(Download, [{
+    key: "downloadFile",
+    value: function downloadFile() {
+      var file = document.createElement("a");
+      file.setAttribute("href", this.path);
+      file.setAttribute("download", "");
+      file.style.display = "none";
+      document.body.appendChild(file);
+      file.click();
+    }
+  }, {
+    key: "bindTrigger",
+    value: function bindTrigger() {
+      var _this = this;
+
+      this.trigger.forEach(function (elem) {
+        elem.addEventListener("click", function (e) {
+          e.stopPropagation();
+
+          _this.downloadFile();
+        });
+      });
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      this.bindTrigger();
+    }
+  }]);
+
+  return Download;
 }();
 
 
